@@ -1,4 +1,5 @@
-const client = mqtt.connect('wss://test.mosquitto.org:8081');
+
+const client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt');
 
 client.on("connect", () => {
     document.getElementById("trangthai").innerText = "Đã kết nối thành công!! :>>";
@@ -40,4 +41,5 @@ nutDen.addEventListener("click", function() {
         this.innerText = "Bật Đèn";
         this.setAttribute("data-state", "OFF");
     }
+
 });
