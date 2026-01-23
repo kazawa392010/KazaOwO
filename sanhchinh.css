@@ -48,7 +48,7 @@ body {
 
 
 
-  z-index: 10; /* kéo lên trên body */
+  z-index: -1; /* kéo lên trên body */
 
 
 
@@ -104,7 +104,9 @@ body {
 
 }
 
-
+div, section, header, footer {
+  background: transparent;
+}
 
 #den {
   border-radius: 10px;
@@ -122,7 +124,10 @@ body {
 
 
 .Ttin {
-
   text-align: center;;
+}
 
+.content {
+  color: white;
+  background: transparent;
 }
