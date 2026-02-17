@@ -1,361 +1,470 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Giao diện Nghiên cứu Hiện đại</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* --- THIẾT LẬP CƠ BẢN & GIAO DIỆN CHUNG --- */
-        :root {
-            --primary-color: #2563eb; /* Xanh dương hiện đại */
-            --secondary-color: #1e293b; /* Xanh đen đậm cho sidebar */
-            --bg-light: #f8fafc; /* Nền sáng cho nội dung */
-            --text-dark: #334155;
-            --text-light: #94a3b8;
-            --sidebar-width: 280px;
-            --border-radius: 12px;
-        }
+      /* --- THIẾT LẬP CƠ BẢN & GIAO DIỆN CHUNG --- */
+      :root {
+        --primary-color: #2563eb;
+        --secondary-color: #1e293b;
+        --bg-light: #f8fafc;
+        --text-dark: #334155;
+        --text-light: #94a3b8;
+        --sidebar-width: 280px;
+        --border-radius: 12px;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent; /* Tối ưu cảm ứng Android */
+      }
 
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        flex-direction: column; /* Mặc định cho mobile */
+      }
+
+      /* --- SIDEBAR (Mobile Bottom Nav / Desktop Left) --- */
+      .sidebar {
+        width: 100%;
+        height: auto;
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-shrink: 0;
+        order: 2; /* Đẩy xuống dưới trên mobile */
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+      }
+
+      .brand {
+        display: none; /* Ẩn brand trên mobile nav */
+      }
+
+      .controls-area {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        width: 100%;
+        justify-content: space-around;
+      }
+
+      /* --- CÁC NÚT BẤM --- */
+      .btn {
+        padding: 0.5rem;
+        border: none;
+        border-radius: var(--border-radius);
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        flex-direction: column; /* Icon trên, chữ dưới cho mobile */
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        background: transparent;
+        color: var(--text-light);
+        flex: 1;
+      }
+
+      .btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .btn-primary {
+        color: var(--primary-color);
+      }
+
+      .sidebar-footer {
+        display: none;
+      }
+
+      /* --- KHU VỰC NỘI DUNG CHÍNH --- */
+      .main-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        order: 1;
+        -webkit-overflow-scrolling: touch; /* Cuộn mượt trên Android */
+      }
+
+      .content-header {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .content-header h1 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--secondary-color);
+        margin-bottom: 0.25rem;
+      }
+
+      .content-header p {
+        font-size: 0.85rem;
+        color: var(--text-light);
+      }
+
+      /* --- BỐ CỤC BÀI VIẾT --- */
+      .research-section {
+        display: flex;
+        flex-direction: column !important; /* Luôn là cột trên mobile */
+        gap: 1rem;
+        margin-bottom: 2rem;
+        opacity: 0;
+        transform: translateY(15px);
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      .text-block h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--secondary-color);
+      }
+
+      .text-block p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--text-dark);
+      }
+
+      .image-block img {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: var(--border-radius);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Media Query cho Desktop */
+      @media (min-width: 768px) {
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            display: flex;
-            height: 100vh;
-            overflow: hidden; /* Ẩn thanh cuộn chính của body */
+          flex-direction: row;
         }
-
-        /* --- SIDEBAR (THANH BÊN TRÁI) --- */
         .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-shrink: 0; /* Không bị co lại */
+          width: var(--sidebar-width);
+          height: 100vh;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 2rem;
+          order: 1;
         }
-
         .brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+          display: flex;
+          font-size: 1.5rem;
+          margin-bottom: 3rem;
+          font-weight: 700;
         }
-        
-        .brand span { color: var(--primary-color); }
-
+        .brand span {
+          color: var(--primary-color);
+        }
         .controls-area {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+          flex-direction: column;
+          gap: 1.5rem;
         }
-
-        /* --- CÁC NÚT BẤM --- */
         .btn {
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          flex-direction: row;
+          padding: 1rem 1.5rem;
+          background-color: rgba(255, 255, 255, 0.1);
+          color: var(--text-light);
+          justify-content: flex-start;
+          font-size: 1rem;
+          gap: 10px;
         }
-
-        /* Nút chính (Tùy chỉnh) */
+        .btn:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+          color: white;
+        }
         .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
+          background-color: var(--primary-color);
+          color: white;
         }
-
         .btn-primary:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+          background-color: #1d4ed8;
         }
-
-        /* Các nút phụ */
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .sidebar-footer {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            text-align: center;
-        }
-
-        /* --- KHU VỰC NỘI DUNG CHÍNH (BÊN PHẢI) --- */
         .main-content {
-            flex-grow: 1;
-            overflow-y: auto; /* Cho phép cuộn dọc ở khu vực này */
-            padding: 3rem 4rem;
+          padding: 3rem 4rem;
         }
-
         .content-header {
-            margin-bottom: 4rem;
+          text-align: left;
+          margin-bottom: 3rem;
         }
-
         .content-header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
+          font-size: 2.5rem;
         }
-
-        .content-header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        /* --- BỐ CỤC BÀI VIẾT XEN KẼ (ZIGZAG) --- */
         .research-section {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-            margin-bottom: 6rem; /* Khoảng cách giữa các bài */
-            opacity: 0; /* Ẩn để làm hiệu ứng hiện ra */
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease forwards;
+          flex-direction: row !important;
+          gap: 3rem;
+          margin-bottom: 4rem;
         }
-
-        /* Mẹo CSS: Đảo ngược thứ tự cho các phần tử chẵn */
         .research-section:nth-child(even) {
-            flex-direction: row-reverse;
+          flex-direction: row-reverse !important;
         }
-
-        .text-block {
-            flex: 1;
-        }
-
-        .text-block h2 {
-            font-size: 2rem;
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .text-block p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
-        }
-
-        .image-block {
-            flex: 1;
-        }
-
         .image-block img {
-            width: 100%;
-            height: 400px; /* Chiều cao cố định để đồng bộ */
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          height: 350px;
         }
-
-        /* Hiệu ứng xuất hiện */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .sidebar-footer {
+          display: block;
+          font-size: 0.8rem;
+          color: var(--text-light);
+          text-align: center;
         }
+      }
 
-        /* Tạo độ trễ cho các bài viết xuất hiện lần lượt */
-        .research-section:nth-child(1) { animation-delay: 0.1s; }
-        .research-section:nth-child(2) { animation-delay: 0.3s; }
-        .research-section:nth-child(3) { animation-delay: 0.5s; }
-
-
-        /* --- MODAL TÙY CHỈNH (Ẩn mặc định) --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            display: none; /* Ẩn */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
 
-        .modal-box {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 16px;
-            width: 500px;
-            max-width: 90%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        .modal-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
-        }
-        .modal-header h3 { font-size: 1.5rem; color: var(--secondary-color); }
-        .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light);}
-        
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--secondary-color);}
-        .form-input { width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px; font-family: inherit;}
-        .form-input:focus { outline: none; border-color: var(--primary-color); }
-
+      /* Modal Mobile */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(3px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-box {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 450px;
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-light);
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-family: inherit;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="sidebar">
-        <div>
-            <div class="brand">
-                <span>●</span> ResearchHub
-            </div>
-            <div class="controls-area">
-                <button class="btn btn-primary" id="customizeBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                    Tùy chỉnh Nội dung
-                </button>
-                
-                <button class="btn btn-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                    Dự án Mới
-                </button>
+      <div class="brand"><span>●</span> ResearchHub</div>
+      <div class="controls-area">
+        <button class="btn btn-primary" id="customizeBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+          </svg>
+          <span>Tùy chỉnh</span>
+        </button>
 
-                <button class="btn btn-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Xuất Báo cáo
-                </button>
-            </div>
-        </div>
-        <div class="sidebar-footer">
-            © 2024 Research Interface v1.0
-        </div>
+        <button class="btn btn-secondary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
+          <span>Dự án</span>
+        </button>
+
+        <button class="btn btn-secondary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span>Báo cáo</span>
+        </button>
+      </div>
+      <div class="sidebar-footer">© 2024 Research v1.0</div>
     </nav>
 
     <main class="main-content">
-        <header class="content-header">// cần sửa lại nd
-            <h1>Khám phá Dữ liệu Khoa học</h1>
-            <p>Tổng hợp các nghiên cứu và phân tích mới nhất về trí tuệ nhân tạo.</p>
-        </header>
+      <header class="content-header">
+        <h1>Khám phá Dữ liệu</h1>
+        <p>Nghiên cứu mới nhất về AI.</p>
+      </header>
 
-        <section class="research-section"> // cần sửa lại nd
-            <div class="text-block">
-                <h2>1. Sự trỗi dậy của Mô hình Ngôn ngữ Lớn</h2>
-                <p>Các mô hình ngôn ngữ lớn (LLM) đã thay đổi căn bản cách chúng ta tương tác với thông tin. Nghiên cứu này tập trung vào khả năng suy luận và tạo sinh của các mô hình thế hệ mới, vượt qua các giới hạn trước đây về ngữ cảnh và độ chính xác.</p>
-                <p>Chúng ta đang chứng kiến sự chuyển dịch từ việc tìm kiếm từ khóa sang việc hiểu ý định thực sự của người dùng, mở ra kỷ nguyên mới cho các trợ lý ảo thông minh.</p>
-            </div>
-            <div class="image-block">
-                <img src="https://picsum.photos/id/1/800/600" alt="Research Image 1">
-            </div>
-        </section>
+      <section class="research-section">
+        <div class="text-block">
+          <h2>1. Mô hình Ngôn ngữ Lớn</h2>
+          <p>
+            LLM thay đổi cách tương tác thông tin, tập trung vào khả năng suy
+            luận và tạo sinh vượt giới hạn cũ.
+          </p>
+        </div>
+        <div class="image-block">
+          <img
+            src="https://picsum.photos/id/1/800/600"
+            alt="Research Image 1"
+            loading="lazy"
+          />
+        </div>
+      </section>
 
-        <section class="research-section">// cần sửa lại nd
-            <div class="text-block">
-                <h2>2. Thị giác Máy tính và Ứng dụng Y tế</h2>
-                <p>Phân tích hình ảnh y tế bằng AI đang đạt độ chính xác ngang tầm, thậm chí vượt trội so với các chuyên gia con người trong một số tác vụ cụ thể như phát hiện khối u sớm.</p>
-                <p>Bằng cách sử dụng mạng nơ-ron tích chập sâu (CNN), hệ thống có thể xử lý hàng nghìn lát cắt CT trong vài giây, giúp giảm tải áp lực cho đội ngũ y bác sĩ.</p>
-            </div>
-            <div class="image-block">
-                <img src="https://picsum.photos/id/1060/800/600" alt="Research Image 2">
-            </div>
-        </section>
+      <section class="research-section">
+        <div class="text-block">
+          <h2>2. AI trong Y tế</h2>
+          <p>
+            Phân tích hình ảnh y tế đạt độ chính xác cao, giúp phát hiện sớm
+            khối u và giảm tải cho bác sĩ.
+          </p>
+        </div>
+        <div class="image-block">
+          <img
+            src="https://picsum.photos/id/1060/800/600"
+            alt="Research Image 2"
+            loading="lazy"
+          />
+        </div>
+      </section>
 
-        <section class="research-section">// cần sửa lại nd
-            <div class="text-block">
-                <h2>3. Đạo đức AI và Giảm thiểu Thiên kiến</h2>
-                <p>Khi AI ngày càng đi sâu vào các quyết định quan trọng của xã hội, vấn đề đạo đức và sự công bằng trở nên cấp thiết hơn bao giờ hết. Nghiên cứu này đề xuất các khung đánh giá mới để phát hiện thiên kiến ẩn trong dữ liệu huấn luyện.</p>
-                <p>Mục tiêu là xây dựng các hệ thống AI không chỉ thông minh mà còn phải đáng tin cậy và minh bạch trong quá trình ra quyết định.</p>
-            </div>
-            <div class="image-block">// cần sửa lại nd 
-                <img src="https://picsum.photos/id/532/800/600" alt="Research Image 3">
-            </div>
-        </section>
-        
-         <section class="research-section"> // cần sửa lại nd
-            <div class="text-block">
-                <h2>4. Tương lai của Điện toán Lượng tử</h2>
-                <p>Điện toán lượng tử hứa hẹn giải quyết các bài toán tối ưu hóa phức tạp mà siêu máy tính cổ điển phải mất hàng nghìn năm. Chúng ta đang ở giai đoạn NISQ (Noisy Intermediate-Scale Quantum), nơi các ứng dụng thực tiễn đầu tiên bắt đầu xuất hiện trong lĩnh vực hóa học mô phỏng và tài chính.</p>
-            </div>
-            <div class="image-block">
-                <img src="https://picsum.photos/id/20/800/600" alt="Research Image 4">
-            </div>
-        </section>
+      <section class="research-section">
+        <div class="text-block">
+          <h2>3. Đạo đức AI</h2>
+          <p>
+            Xây dựng hệ thống AI minh bạch, công bằng và giảm thiểu thiên kiến
+            trong dữ liệu huấn luyện.
+          </p>
+        </div>
+        <div class="image-block">
+          <img
+            src="https://picsum.photos/id/532/800/600"
+            alt="Research Image 3"
+            loading="lazy"
+          />
+        </div>
+      </section>
 
+      <section class="research-section">
+        <div class="text-block">
+          <h2>4. Điện toán Lượng tử</h2>
+          <p>
+            Giải quyết các bài toán tối ưu hóa phức tạp mà siêu máy tính cổ điển
+            khó thực hiện được.
+          </p>
+        </div>
+        <div class="image-block">
+          <img
+            src="https://picsum.photos/id/20/800/600"
+            alt="Research Image 4"
+            loading="lazy"
+          />
+        </div>
+      </section>
     </main>
 
-    <div class="modal-overlay" id="customizeModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3>Tùy chỉnh Giao diện Nghiên cứu</h3>
-                <button class="close-btn" id="closeModalBtn">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="themeSelect">Chủ đề màu sắc</label>
-                    <select id="themeSelect" class="form-input">
-                        <option>Hiện đại (Xanh dương)</option>
-                        <option>Tối (Dark Mode)</option>
-                        <option>Học thuật (Nâu đỏ)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="densitySelect">Mật độ hiển thị</label>
-                    <select id="densitySelect" class="form-input">
-                        <option>Thoáng (Mặc định)</option>
-                        <option>Dày đặc</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" style="width: 100%; justify-content: center;">Áp dụng Thay đổi</button>
-            </div>
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Tùy chỉnh</h3>
+          <button class="close-btn" id="closeBtn">&times;</button>
         </div>
+        <div class="form-group">
+          <label>Tiêu đề mới</label>
+          <input type="text" class="form-input" placeholder="Nhập tiêu đề..." />
+        </div>
+        <button
+          class="btn btn-primary"
+          style="
+            width: 100%;
+            flex-direction: row;
+            background-color: var(--primary-color);
+            color: white;
+          "
+        >
+          Lưu thay đổi
+        </button>
+      </div>
     </div>
 
     <script>
-        // --- JAVASCRIPT ĐƠN GIẢN ĐỂ XỬ LÝ NÚT BẤM ---
-        const customizeBtn = document.getElementById('customizeBtn');
-        const modal = document.getElementById('customizeModal');
-        const closeBtn = document.getElementById('closeModalBtn');
+      const customizeBtn = document.getElementById("customizeBtn");
+      const modalOverlay = document.getElementById("modalOverlay");
+      const closeBtn = document.getElementById("closeBtn");
 
-        // Mở modal khi nhấn nút Tùy chỉnh
-        customizeBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
+      customizeBtn.addEventListener("click", () => {
+        modalOverlay.style.display = "flex";
+      });
 
-        // Đóng modal khi nhấn nút X
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+      closeBtn.addEventListener("click", () => {
+        modalOverlay.style.display = "none";
+      });
 
-        // Đóng modal khi nhấn ra ngoài vùng nội dung modal
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) modalOverlay.style.display = "none";
+      });
     </script>
-</body>
+  </body>
 </html>
-
