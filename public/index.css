@@ -102,7 +102,7 @@ body {
 
 @media (min-width: 768px) {
   body { flex-direction: row; }
-  .text-block p { max-width: 300px;}
+  .text-block p { max-width: 350px;}
   .sidebar { width: var(--sidebar-width); height: 100vh; flex-direction: column; justify-content: space-between; padding: 2rem; order: 1; }
   .brand { display: flex; font-size: 1.5rem; margin-bottom: 3rem; font-weight: 700; }
   .brand span { color: var(--primary-color); }
