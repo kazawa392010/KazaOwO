@@ -71,7 +71,7 @@ body {
 }
 
 .btn svg { width: 20px; height: 20px; }
-.btn-primary { color: var(--primary-color); }
+.btn-primary { background-color: rgba(255, 255, 255, 0.1); color: var(--text-light); }
 .sidebar-footer { display: none; }
 
 .main-content {
