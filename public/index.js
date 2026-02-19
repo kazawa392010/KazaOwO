@@ -1,43 +1,43 @@
-const memberModal = document.getElementById('memberModal');
-const btnMember = document.querySelectorAll('.btn-secondary')[0]; // Nút Thành Viên đầu tiên
-const closeMemberBtn = document.getElementById('closeMemberBtn');
-const footerCloseBtn = document.getElementById('footerCloseBtn');
+// Khai báo các nút
+const reportBtn = document.getElementById('reportBtn');
+const memberBtn = document.getElementById('memberBtn');
+const controlBtn = document.getElementById('controlBtn');
 
-// Mở Modal khi bấm vào nút Thành Viên
-btnMember.onclick = function() {
-    memberModal.style.display = 'flex';
+// Khai báo các Box (Modal)
+const modalOverlay = document.getElementById('modalOverlay'); // Box Báo cáo
+const memberModal = document.getElementById('memberModal');   // Box Thành viên
+
+// --- HÀM MỞ BOX ---
+function openBox(modal, btn) {
+    modal.style.display = 'flex';
+    btn.classList.add('active'); // "Bật đèn" màu xanh cho nút
 }
 
-// Đóng Modal khi bấm dấu X hoặc nút Đóng
-const closeModal = () => memberModal.style.display = 'none';
+// --- HÀM ĐÓNG TẤT CẢ ---
+function closeAll() {
+    modalOverlay.style.display = 'none';
+    memberModal.style.display = 'none';
+    
+    // "Tắt đèn" tất cả các nút
+    reportBtn.classList.remove('active');
+    memberBtn.classList.remove('active');
+    controlBtn.classList.remove('active');
+}
 
-closeMemberBtn.onclick = closeModal;
-footerCloseBtn.onclick = closeModal;
+// Gán sự kiện mở cho nút Báo Cáo
+reportBtn.onclick = () => openBox(modalOverlay, reportBtn);
 
-// Đóng khi bấm ra ngoài vùng màu đen
-window.onclick = function(event) {
-    if (event.target == memberModal) {
-        closeModal();
+// Gán sự kiện mở cho nút Thành Viên
+memberBtn.onclick = () => openBox(memberModal, memberBtn);
+
+// Xử lý nút đóng (Dấu X và nút Đóng ở footer)
+document.querySelectorAll('.close-btn, .btn-close-modal').forEach(btn => {
+    btn.onclick = closeAll;
+});
+
+// Đóng khi bấm ra vùng trống bên ngoài Box
+window.onclick = (e) => {
+    if (e.target === modalOverlay || e.target === memberModal) {
+        closeAll();
     }
-}
-
-const customizeBtn = document.getElementById("customizeBtn");
-const modalOverlay = document.getElementById("modalOverlay");
-const closeBtn = document.getElementById("closeBtn");
-
-// Mở modal khi bấm nút Tùy chỉnh
-customizeBtn.addEventListener("click", () => {
-  modalOverlay.style.display = "flex";
-});
-
-// Đóng modal khi bấm nút X
-closeBtn.addEventListener("click", () => {
-  modalOverlay.style.display = "none";
-});
-
-// Đóng modal khi bấm ra ngoài vùng màu đen
-modalOverlay.addEventListener("click", (e) => {
-  if (e.target === modalOverlay) {
-    modalOverlay.style.display = "none";
-  }
-});
+};
