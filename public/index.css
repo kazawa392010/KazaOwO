@@ -70,8 +70,8 @@ body {
   flex: 1;
 }
 
-.btn svg { width: 20px; height: 20px; }
-.btn-primary { background-color: rgba(255, 255, 255, 0.1); color: var(--text-light); }
+.btn svg {  }
+.btn-primary { background-color: transparent; color: var(--text-light);  }
 .sidebar-footer { display: none; }
 
 .main-content {
@@ -104,118 +104,7 @@ body {
   body { flex-direction: row; }
   .text-block p { max-width: 350px;}
   .sidebar { width: var(--sidebar-width); height: 100vh; flex-direction: column; justify-content: space-between; padding: 2rem; order: 1; }
-  .brand { display: flex; font-size: 1.5rem; margin-bottom: 3rem; font-weight: 700; }<!DOCTYPE html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ESP32_SERVER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css" />
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-  </head>
-  <body>
-    <nav class="sidebar">
-      <div class="brand">ESP32 Project</div>
-      <div class="controls-area">
-        <button class="btn btn-primary" id="customizeBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-    <polyline points="14 2 14 8 20 8"></polyline>
-    <line x1="12" y1="18" x2="12" y2="12"></line>
-    <line x1="9" y1="18" x2="9" y2="15"></line>
-    <line x1="15" y1="18" x2="15" y2="14"></line>
-  </svg>
-          <span>Báo Cáo</span>
-        </button>
-        <button class="btn btn-secondary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-    <circle cx="9" cy="7" r="4"></circle>
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-  </svg>
-          <span>Thành Viên</span>
-        </button>
-        <button class="btn btn-secondary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
-    <rect x="9" y="9" width="6" height="6"/>
-    <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
-    <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
-    <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/>
-    <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/>
-  </svg>
-          <span>Điều Khiển</span>
-        </button>
-      </div>
-      <div class="sidebar-footer">© 2026 KazaOwO | Thịnh | Team</div>
-    </nav>
-
-    <main class="main-content">
-      <header class="content-header">
-        <h1>Máy Phun Sương tự động</h1>
-        <p>Sản phẩm mô hình GDĐP</p>
-      </header>
-
-      <section class="research-section">
-        <div class="text-block">
-          <h2>ESP32 - Truyền Nhận Và Xử Lý Tín Hiệu</h2>
-          <p>ESP32 là dòng vi điều khiển hiệu năng cao tích hợp sẵn Wi-Fi và Bluetooth, đóng vai trò là cầu nối thông minh giữa phần cứng vật lý và không gian mạng. Trong dự án này, ESP32 hoạt động như một thiết bị đầu cuối (Client) liên tục giao tiếp với Web Server qua Internet để kiểm tra trạng thái điều khiển; ngay khi nhận được lệnh từ máy chủ, nó sẽ xử lý dữ liệu và kích hoạt mạch công suất để đóng/ngắt hệ thống phun sương từ xa một cách tức thời.</p>
-        </div>
-        <div class="image-block">
-          <img src="https://einstronic.com/wp-content/uploads/2020/05/NodeMCU-ESP32-2.jpg" alt="Research 1" loading="lazy" />
-        </div>
-      </section>
-
-      <section class="research-section">
-        <div class="text-block">
-          <h2>AI - Hỗ Trợ Build & Phân Tích Dữ Liệu</h2>
-          <p>Nhóm sử dụng AI để hỗ trợ trong việc thiết kế giao diện web và code một số chức năng phức tạp. Đồng thời tích hợp AI vào Web Server giúp hệ thống tạo độ ẩm trở nên thông minh vượt trội bằng cách tự động phân tích dữ liệu từ cảm biến. Thay vì bật tắt máy móc, AI sẽ tự học quy luật môi trường để đưa ra quyết định điều khiển mạch phun sương chính xác theo thời gian thực, giúp duy trì độ ẩm hoàn hảo mà vẫn tiết kiệm điện nước tối đa.</p>
-        </div>
-        <div class="image-block">
-          <img src="https://tse3.mm.bing.net/th/id/OIP.1JR5T4LmG4bo-edKjHtoPQAAAA?cb=defcache2&defcache=1&w=386&h=330&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Research 2" loading="lazy" />
-        </div>
-      </section>
-
-      <section class="research-section">
-        <div class="text-block">
-          <h2>Mạch Điều Khiển Sau Hàn</h2>
-          <p>...Ko có gì cả! tại chưa làm xong :>>  ( hình ảnh chỉ mang tính chất minh họa ) </p>
-        </div>
-        <div class="image-block">
-          <img src="img/test.jpg" alt="Research 3" loading="lazy" />
-        </div>
-      </section>
-
-      <section class="research-section">
-        <div class="text-block">
-          <h2>Sản Phẩm Hoàn Chỉnh</h2>
-          <p>...Ko có gì cả! tại chưa làm xong :>>  ( hình ảnh chỉ mang tính chất minh họa ) </p>
-        </div>
-        <div class="image-block">
-          <img src="img/test.jpg" alt="Research 4" loading="lazy" />
-        </div>
-      </section>
-    </main>
-
-    <div class="modal-overlay" id="modalOverlay">
-      <div class="modal-box">
-        <div class="modal-header">
-          <h3>Tùy chỉnh</h3>
-          <button class="close-btn" id="closeBtn">&times;</button>
-        </div>
-        <div class="form-group">
-          <label>Tiêu đề mới</label>
-          <input type="text" class="form-input" placeholder="Nhập tiêu đề..." />
-        </div>
-        <button class="btn btn-primary" style="width: 100%; color: white; background-color: var(--primary-color); flex-direction: row;">Lưu thay đổi</button>
-      </div>
-    </div>
-
-    <script src="index.js"></script>
-  </body>
-</html>
+  .brand { display: flex; font-size: 1.5rem; margin-bottom: 3rem; font-weight: 700; }
   .brand span { color: var(--primary-color); }
   .controls-area { flex-direction: column; gap: 1.5rem; }
   .btn { flex-direction: row; padding: 1rem 1.5rem; background-color: rgba(255, 255, 255, 0.1); color: var(--text-light); justify-content: flex-start; font-size: 1rem; gap: 10px; }
@@ -291,4 +180,13 @@ body {
 
 .btn-close-modal:hover {
     opacity: 0.9;
+}
+
+.btn.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+.btn.active svg {
+    stroke: white !important;
 }
