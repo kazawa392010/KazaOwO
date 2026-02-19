@@ -165,7 +165,7 @@ body {
     color: var(--text-light);
 }
 
-/* Nút đóng ở dưới cùng */
+
 .btn-close-modal {
     width: 100%;
     padding: 0.75rem;
@@ -190,3 +190,35 @@ body {
 .btn.active svg {
     stroke: white !important;
 }
+
+#doimang, #on-off-mach, #guiTB {
+  width: auto;
+    padding: 0.4rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+#on-off-mach:hover {
+  transform: scale(1.1);
+}
+
+#doimang:hover {
+  transform: scale(1.1);
+}
+
+#guiTB:hover {
+  transform: scale(1.1);
+}
+
+.TT {
+  font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+
+
