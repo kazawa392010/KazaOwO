@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>OwO</title>
+    <title>ESP32_SERVER</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="index.css" />
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
@@ -48,7 +48,7 @@
 
     <main class="main-content">
       <header class="content-header">
-        <h1>WEB ĐIỀU KHIỂN </h1>
+        <h1>Máy Phun Sương tự động</h1>
         <p>Sản phẩm mô hình GDĐP</p>
       </header>
 
@@ -117,7 +117,7 @@
     <div class="member-list">
       <div class="member-item">
         <div class="member-info">
-          <span class="name">Khang</span>
+           <span class="name">Khang</span>
           <span class="task">Thiết Kế / Hàn mạch</span>
         </div>
       </div>
@@ -158,10 +158,52 @@
       </div>
       
       </div>
-
     <button class="btn-close-modal" id="footerCloseBtn">Đóng</button>
   </div>
-</div> 
+</div>
+    
+    <div class="modal-overlay" id="controlModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3> Bảng Điều Khiển</h3>
+          <button class="close-btn" id="closecotrol">&times;</button>
+        </div>
+        
+        <div class="member-list">
+      <div class="member-item">
+        <div class="member-info">
+          <span class="name">Trạng Thái ESP32</span>
+          <span class="task">Trạng Thái: <span id='status-network'>...</span></span>
+          <span class="task">Mạng: <span id='ipnetwork'>...</span></span>
+          <button id='doimang'>ĐỔI MẠNG</button>
+        </div>
+      </div>
+        </div>
+        
+        
+      <div class="member-item">
+        <div class="member-info">
+          <span class="name">Dữ Liệu Không Khí</span>
+          <span class="TT">Độ Ẩm Không Khí: <span id='do-am'>...</span></span>
+          <span class="TT">Mạch Tạo Độ Ẩm : <span id='status-mach'>...</span></span>
+          <button id='on-off-mach'>Bật / Tắt Mạch Tạo Độ Ẩm</button>
+        </div>
+      </div>
+        
+        
+       
+      <div class="member-item">
+        <div class="member-info">
+          <span class="name">Màn Hình</span>
+          <input type="text" class="form-input" placeholder="Lời Nhắn..." id='TB'/>
+          <button id='guiTB'>Cập Nhật</button>
+        </div>
+      </div>
+        </div>
+        
+      </div>
+    </div>
+    
     <script src="index.js"></script>
   </body>
 </html>
