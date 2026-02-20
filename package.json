@@ -1,7 +1,7 @@
 {
-  "name": "my-node-app",
+  "name": "esp32-web-control",
   "version": "1.0.0",
-  "description": "",
+  "description": "OwO",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
