@@ -41,3 +41,54 @@ window.onclick = (e) => {
         closeAll();
     }
 };
+
+// Thêm đoạn này vào cuối file index.js hiện tại của ông
+
+async function updateDashboard() {
+    try {
+        const res = await fetch('/api/status');
+        const data = await res.json();
+
+        // Cập nhật UI từ dữ liệu Server
+        document.getElementById('do-am').innerText = data.humidity + "%";
+        document.getElementById('status-network').innerText = data.status;
+        document.getElementById('ipnetwork').innerText = data.espIP;
+        document.getElementById('status-mach').innerText = data.relay === 1 ? "Đang Chạy" : "Đang Tắt";
+
+        // Đổi màu trạng thái Online/Offline
+        const statusNode = document.getElementById('status-network');
+        statusNode.style.color = data.status === "Online" ? "#10b981" : "#ef4444";
+
+    } catch (err) {
+        console.error("Không thể kết nối Server:", err);
+    }
+}
+
+// Xử lý bấm nút Bật/Tắt trên Web
+document.getElementById('on-off-mach').onclick = async () => {
+    const currentText = document.getElementById('status-mach').innerText;
+    const newRelayState = currentText === "Đang Tắt" ? 1 : 0;
+
+    await fetch('/api/control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ relay: newRelayState })
+    });
+    updateDashboard(); // Cập nhật lại UI ngay lập tức
+};
+
+// Xử lý gửi Lời Nhắn xuống OLED
+document.getElementById('guiTB').onclick = async () => {
+    const msg = document.getElementById('TB').value;
+    if(!msg) return;
+
+    await fetch('/api/control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+    });
+    alert("Đã gửi lời nhắn!");
+};
+
+// Cứ 2 giây cập nhật web một lần
+setInterval(updateDashboard, 2000);
