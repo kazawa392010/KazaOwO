@@ -98,27 +98,27 @@ document.getElementById('guiTB').onclick = async () => {
 setInterval(updateDashboard, 2000);
 
 // doi anh 
-var doianh = (arr_id) => {
-  var id1 = arr_id[0]
-  var id2 = arr_id[1]
-  var id3 = arr_id[2]
-  
-  if (divId(id1).getAttribute('data-status') == '1') {
-    divId(id2).style.display ="block";
-    divId(id1).style.display ="none"
-    divId(id2).setAttribute('data-status', '1');
-    divId(id1).setAttribute('data-status', '0');
-  } else if (divId(id2).getAttribute('data-status') == '1') {
-    divId(id3).style.display ="block";
-    divId(id2).style.display ="none"
-    divId(id3).setAttribute('data-status', '1');
-    divId(id2).setAttribute('data-status', '0');
-  } else {
-    divId(id1).style.display ="block";
-    divId(id3).style.display ="none"
-    divId(id1).setAttribute('data-status', '1');
-    divId(id3).setAttribute('data-status', '0');
-  }
-};
+// Bạn có thể giữ nguyên cách gọi onclick="doianh('slider-1')" trong HTML
+function doianh(containerId) {
+    const container = document.getElementById(containerId);
+    const images = container.getElementsByClassName('slider-img');
+    
+    let currentIndex = -1;
 
+    // 1. Tìm vị trí của ảnh đang hiển thị (có class active)
+    for (let i = 0; i < images.length; i++) {
+        if (images[i].classList.contains('active')) {
+            currentIndex = i;
+            break;
+        }
+    }
 
+    // 2. Gỡ bỏ class active của ảnh hiện tại
+    images[currentIndex].classList.remove('active');
+
+    // 3. Tính toán ảnh tiếp theo (nếu là ảnh cuối thì quay lại ảnh đầu)
+    let nextIndex = (currentIndex + 1) % images.length;
+
+    // 4. Thêm class active cho ảnh mới để kích hoạt CSS transition
+    images[nextIndex].classList.add('active');
+}
