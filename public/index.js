@@ -13,6 +13,10 @@ function openBox(modal, btn) {
     btn.classList.add('active'); // "Bật đèn" màu xanh cho nút
 }
 
+divId = (id) => {
+  return document.getElementById(`${id}`)
+}
+
 // --- HÀM ĐÓNG TẤT CẢ ---
 function closeAll() {
     modalOverlay.style.display = 'none';
@@ -92,3 +96,29 @@ document.getElementById('guiTB').onclick = async () => {
 
 // Cứ 2 giây cập nhật web một lần
 setInterval(updateDashboard, 2000);
+
+// doi anh 
+var doianh = (arr_id) => {
+  var id1 = arr_id[0]
+  var id2 = arr_id[1]
+  var id3 = arr_id[2]
+  
+  if (divId(id1).getAttribute('data-status') == '1') {
+    divId(id2).style.display ="block";
+    divId(id1).style.display ="none"
+    divId(id2).setAttribute('data-status', '1');
+    divId(id1).setAttribute('data-status', '0');
+  } else if (divId(id2).getAttribute('data-status') == '1') {
+    divId(id3).style.display ="block";
+    divId(id2).style.display ="none"
+    divId(id3).setAttribute('data-status', '1');
+    divId(id2).setAttribute('data-status', '0');
+  } else {
+    divId(id1).style.display ="block";
+    divId(id3).style.display ="none"
+    divId(id1).setAttribute('data-status', '1');
+    divId(id3).setAttribute('data-status', '0');
+  }
+};
+
+
